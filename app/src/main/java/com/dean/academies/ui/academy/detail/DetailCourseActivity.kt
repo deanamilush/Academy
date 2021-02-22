@@ -1,10 +1,9 @@
-package com.dean.academies.detail
+package com.dean.academies.ui.academy.detail
 
 import android.content.Intent
 import android.os.Bundle
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
@@ -14,8 +13,7 @@ import com.dean.academies.R
 import com.dean.academies.data.CourseEntity
 import com.dean.academies.databinding.ActivityDetailCourseBinding
 import com.dean.academies.databinding.ContentDetailCourseBinding
-import com.dean.academies.reader.CourseReaderActivity
-import com.dean.academies.utils.DataDummy
+import com.dean.academies.ui.academy.reader.CourseReaderActivity
 
 class DetailCourseActivity : AppCompatActivity() {
 
@@ -37,20 +35,18 @@ class DetailCourseActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val adapter = DetailCourseAdapter()
+        val viewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())[DetailCourseViewModel::class.java]
 
         val extras = intent.extras
         if (extras != null) {
             val courseId = extras.getString(EXTRA_COURSE)
             if (courseId != null) {
-                val modules = DataDummy.generateDummyModules(courseId)
+                viewModel.setSelectedCourse(courseId)
+                val modules = viewModel.getModules()
                 adapter.setModules(modules)
-                for (course in DataDummy.generateDummyCourses()) {
-                    if (course.courseId == courseId) {
-                        populateCourse(course)
+                populateCourse(viewModel.getCourse() as CourseEntity)
                     }
                 }
-            }
-        }
 
         with(detailContentBinding.rvModule) {
             isNestedScrollingEnabled = false
@@ -77,7 +73,7 @@ class DetailCourseActivity : AppCompatActivity() {
 
         detailContentBinding.btnStart.setOnClickListener {
             val intent = Intent(this@DetailCourseActivity, CourseReaderActivity::class.java)
-           // intent.putExtra(CourseReaderActivity.EXTRA_COURSE_ID, courseEntity.courseId)
+            intent.putExtra(CourseReaderActivity.EXTRA_COURSE_ID, courseEntity.courseId)
             startActivity(intent)
         }
     }

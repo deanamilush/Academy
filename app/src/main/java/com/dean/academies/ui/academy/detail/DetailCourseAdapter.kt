@@ -1,4 +1,4 @@
-package com.dean.academies.detail
+package com.dean.academies.ui.academy.detail
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

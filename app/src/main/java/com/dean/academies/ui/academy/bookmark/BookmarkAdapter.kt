@@ -1,4 +1,4 @@
-package com.dean.academies.academy
+package com.dean.academies.ui.academy.bookmark
 
 import android.content.Intent
 import android.view.LayoutInflater
@@ -8,11 +8,11 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.dean.academies.R
 import com.dean.academies.data.CourseEntity
-import com.dean.academies.databinding.ItemsAcademyBinding
-import com.dean.academies.detail.DetailCourseActivity
+import com.dean.academies.databinding.ItemsBookmarkBinding
+import com.dean.academies.ui.academy.detail.DetailCourseActivity
 
-class AcademyAdapter : RecyclerView.Adapter<AcademyAdapter.CourseViewHolder>() {
-    private var listCourses = ArrayList<CourseEntity>()
+class BookmarkAdapter (private val callback: BookmarkFragmentCallback) : RecyclerView.Adapter<BookmarkAdapter.CourseViewHolder>() {
+    private val listCourses = ArrayList<CourseEntity>()
 
     fun setCourses(courses: List<CourseEntity>?) {
         if (courses == null) return
@@ -21,8 +21,8 @@ class AcademyAdapter : RecyclerView.Adapter<AcademyAdapter.CourseViewHolder>() {
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CourseViewHolder {
-        val itemsAcademyBinding = ItemsAcademyBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return CourseViewHolder(itemsAcademyBinding)
+        val itemsBookmarkBinding = ItemsBookmarkBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return CourseViewHolder(itemsBookmarkBinding)
     }
 
     override fun onBindViewHolder(holder: CourseViewHolder, position: Int) {
@@ -32,8 +32,7 @@ class AcademyAdapter : RecyclerView.Adapter<AcademyAdapter.CourseViewHolder>() {
 
     override fun getItemCount(): Int = listCourses.size
 
-
-    class CourseViewHolder(private val binding: ItemsAcademyBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class CourseViewHolder(private val binding: ItemsBookmarkBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(course: CourseEntity) {
             with(binding) {
                 tvItemTitle.text = course.title
@@ -43,6 +42,7 @@ class AcademyAdapter : RecyclerView.Adapter<AcademyAdapter.CourseViewHolder>() {
                     intent.putExtra(DetailCourseActivity.EXTRA_COURSE, course.courseId)
                     itemView.context.startActivity(intent)
                 }
+                imgShare.setOnClickListener { callback.onShareClick(course) }
                 Glide.with(itemView.context)
                     .load(course.imagePath)
                     .apply(
@@ -53,3 +53,4 @@ class AcademyAdapter : RecyclerView.Adapter<AcademyAdapter.CourseViewHolder>() {
         }
     }
 }
+

@@ -7,5 +7,5 @@ data class ModuleEntity(
         var position: Int,
         var read: Boolean = false
 ){
-    var contentEntity: ContentEntity? = null
+        var contentEntity: ContentEntity? = null
 }

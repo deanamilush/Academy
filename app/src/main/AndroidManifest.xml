@@ -14,16 +14,16 @@
         android:theme="@style/Theme.Academy"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name="com.dean.academies.detail.DetailCourseActivity"
+            android:name="com.dean.academies.ui.academy.detail.DetailCourseActivity"
             android:label="@string/title_activity_detail_course"
-            android:parentActivityName="com.dean.academies.home.HomeActivity"
+            android:parentActivityName="com.dean.academies.ui.academy.home.HomeActivity"
             android:theme="@style/Theme.Academy.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.dean.academies.home.HomeActivity" />
+                android:value="com.dean.academies.ui.academy.home.HomeActivity" />
         </activity>
-        <activity android:name="com.dean.academies.reader.CourseReaderActivity" />
-        <activity android:name="com.dean.academies.home.HomeActivity">
+        <activity android:name="com.dean.academies.ui.academy.reader.CourseReaderActivity" />
+        <activity android:name="com.dean.academies.ui.academy.home.HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
